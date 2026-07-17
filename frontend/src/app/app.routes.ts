@@ -4,6 +4,7 @@ import { Login } from './pages/login/login';
 import { UsersList } from './pages/users-list/users-list';
 import { UserForm } from './pages/user-form/user-form';
 import { PageNotFound } from './pages/page-not-found/page-not-found';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayout,
+    canActivate: [authGuard],
     children: [
       {
         path: 'users',

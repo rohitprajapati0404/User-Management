@@ -1,2 +1,51 @@
-<h2>Login</h2>
-<p>Login page.</p>
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>User Management</mat-card-title>
+      <mat-card-subtitle>Sign in to your account</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput
+                 [(ngModel)]="username"
+                 name="username"
+                 required
+                 #usernameField="ngModel" />
+          @if (usernameField.invalid && usernameField.touched) {
+            <mat-error>Username is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput
+                 type="password"
+                 [(ngModel)]="password"
+                 name="password"
+                 required
+                 #passwordField="ngModel" />
+          @if (passwordField.invalid && passwordField.touched) {
+            <mat-error>Password is required</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-raised-button
+                color="primary"
+                type="submit"
+                class="full-width login-button"
+                [disabled]="loginForm.invalid || loading">
+          @if (loading) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            Login
+          }
+        </button>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

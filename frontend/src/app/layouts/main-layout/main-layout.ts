@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
+import { Toolbar } from '../../components/toolbar/toolbar';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
   imports: [
     RouterOutlet,
-    MatToolbarModule,
-    MatButtonModule
+    Toolbar
   ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css'
