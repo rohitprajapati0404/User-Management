@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { MainLayout } from './layouts/main-layout/main-layout';
 import { Login } from './pages/login/login';
 import { UsersList } from './pages/users-list/users-list';
 import { UserForm } from './pages/user-form/user-form';
@@ -10,25 +11,30 @@ export const routes: Routes = [
     component: Login
   },
   {
-    path: 'users',
-    component: UsersList
-  },
-  {
-    path: 'users/new',
-    component: UserForm
-  },
-  {
-    path: 'users/:id/edit',
-    component: UserForm
-  },
-  {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
+    component: MainLayout,
+    children: [
+      {
+        path: 'users',
+        component: UsersList
+      },
+      {
+        path: 'users/new',
+        component: UserForm
+      },
+      {
+        path: 'users/:id/edit',
+        component: UserForm
+      },
+      {
+        path: '',
+        redirectTo: 'users',
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: '**',
     component: PageNotFound
   }
 ];
-
