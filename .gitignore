@@ -1,0 +1,35 @@
+# ========================
+# Backend (Maven / Spring Boot)
+# ========================
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/HELP.md
+
+# IDE files
+.idea/
+*.iws
+*.iml
+*.ipr
+.classpath
+.project
+.settings/
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+.vscode/
+
+# ========================
+# Frontend (Node / React)
+# ========================
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env.local
+frontend/.env.production
+
+# ========================
+# OS files
+# ========================
+.DS_Store
+Thumbs.db
