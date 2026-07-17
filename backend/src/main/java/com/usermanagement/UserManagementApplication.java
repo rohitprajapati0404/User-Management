@@ -18,28 +18,30 @@ public class UserManagementApplication {
     }
 
     @Bean
-    CommandLineRunner testRepository(UserRepository repository) {
+    CommandLineRunner seedUsers(UserRepository repository) {
 
         return args -> {
 
-            User user = new User();
+            // Prevent duplicate inserts if data already exists
+            if (repository.count() > 0) {
+                return;
+            }
 
-            user.setFirstName("admin");
-            user.setLastName("admin");
-            user.setEmail("admin@mail.com");
-            user.setRole(Role.ADMIN);
-            user.setActive(true);
-            user.setCreatedAt(LocalDateTime.now());
+            for (int i = 1; i <= 10; i++) {
 
-            repository.save(user);
+                User user = new User();
 
-            System.out.println("User Saved");
+                user.setFirstName("User");
+                user.setLastName(String.valueOf(i));
+                user.setEmail("user" + i + "@example.com");
+                user.setRole(i == 1 ? Role.ADMIN : Role.USER);
+                user.setActive(true);
+                user.setCreatedAt(LocalDateTime.now());
 
-            System.out.println(repository.findAll());
+                repository.save(user);
+            }
 
-            System.out.println(repository.existsByEmail("admin@mail.com"));
-
-            System.out.println(repository.findByEmail("admin@mail.com"));
+            System.out.println("10 sample users inserted successfully.");
 
         };
 
