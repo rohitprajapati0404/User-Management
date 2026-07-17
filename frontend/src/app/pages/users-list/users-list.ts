@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MatTableModule } from '@angular/material/table';
@@ -38,6 +38,7 @@ export class UsersList implements OnInit {
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.loadUsers();
@@ -45,14 +46,20 @@ export class UsersList implements OnInit {
 
   loadUsers(): void {
     this.loading = true;
+    this.cdr.detectChanges();
     this.userService.getUsers().subscribe({
       next: (data) => {
         this.users = data;
         this.loading = false;
+        this.cdr.detectChanges();
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.snackBar.open('Failed to load users', 'Close', { duration: 3000 });
+        this.cdr.detectChanges();
+        const status = err?.status;
+        let message = 'Failed to load users. Is the backend running?';
+        if (status === 401) message = 'Unauthorized. Please log in again.';
+        this.snackBar.open(message, 'Close', { duration: 5000 });
       }
     });
   }

@@ -36,9 +36,11 @@
       <ng-container matColumnDef="active">
         <th mat-header-cell *matHeaderCellDef>Active</th>
         <td mat-cell *matCellDef="let user">
-          <mat-chip [highlighted]="user.active">
-            {{ user.active ? 'Active' : 'Inactive' }}
-          </mat-chip>
+          @if (user.active) {
+            <mat-chip>Active</mat-chip>
+          } @else {
+            <mat-chip>Inactive</mat-chip>
+          }
         </td>
       </ng-container>
 

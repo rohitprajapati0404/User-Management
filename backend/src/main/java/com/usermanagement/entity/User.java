@@ -2,6 +2,7 @@ package com.usermanagement.entity;
 
 import com.usermanagement.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
 
@@ -13,19 +14,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "First name is required")
     @Column(nullable = false)
     private String firstName;
 
+    @NotBlank(message = "Last name is required")
     @Column(nullable = false)
     private String lastName;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be valid")
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull(message = "Role is required")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
+    @NotNull(message = "Active status is required")
     @Column(nullable = false)
     private Boolean active;
 

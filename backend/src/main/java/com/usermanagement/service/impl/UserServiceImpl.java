@@ -7,6 +7,7 @@ import com.usermanagement.repository.UserRepository;
 import com.usermanagement.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,6 +38,8 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateResourceException("Email already exists");
         }
 
+        user.setCreatedAt(LocalDateTime.now());
+
         return repository.save(user);
     }
 
@@ -58,6 +61,7 @@ public class UserServiceImpl implements UserService {
         existingUser.setEmail(user.getEmail());
         existingUser.setRole(user.getRole());
         existingUser.setActive(user.getActive());
+        // preserve original createdAt — do not overwrite
 
         return repository.save(existingUser);
     }

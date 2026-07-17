@@ -2,6 +2,7 @@ package com.usermanagement.controller;
 
 import com.usermanagement.entity.User;
 import com.usermanagement.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +30,14 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         return service.createUser(user);
     }
 
     @PutMapping("/{id}")
     public User updateUser(
             @PathVariable Long id,
-            @RequestBody User user) {
+            @Valid @RequestBody User user) {
 
         return service.updateUser(id, user);
     }

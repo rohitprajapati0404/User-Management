@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
@@ -50,6 +50,7 @@ export class UserForm implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -63,13 +64,16 @@ export class UserForm implements OnInit {
   loadUser(): void {
     if (!this.userId) return;
     this.loading = true;
+    this.cdr.detectChanges();
     this.userService.getUser(this.userId).subscribe({
       next: (data) => {
         this.user = data;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.loading = false;
+        this.cdr.detectChanges();
         this.snackBar.open('Failed to load user', 'Close', { duration: 3000 });
       }
     });
@@ -77,6 +81,7 @@ export class UserForm implements OnInit {
 
   onSave(): void {
     this.saving = true;
+    this.cdr.detectChanges();
 
     if (this.isEditMode && this.userId) {
       this.userService.updateUser(this.userId, this.user).subscribe({
@@ -87,6 +92,7 @@ export class UserForm implements OnInit {
         },
         error: (err) => {
           this.saving = false;
+          this.cdr.detectChanges();
           const message = err?.error?.message || 'Failed to update user';
           this.snackBar.open(message, 'Close', { duration: 3000 });
         }
@@ -100,6 +106,7 @@ export class UserForm implements OnInit {
         },
         error: (err) => {
           this.saving = false;
+          this.cdr.detectChanges();
           const message = err?.error?.message || 'Failed to create user';
           this.snackBar.open(message, 'Close', { duration: 3000 });
         }

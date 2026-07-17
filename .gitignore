@@ -29,6 +29,14 @@ frontend/.env.local
 frontend/.env.production
 
 # ========================
+# Logs / Debug
+# ========================
+*.log
+*.err.log
+backend.err.log
+frontend.err.log
+
+# ========================
 # OS files
 # ========================
 .DS_Store
