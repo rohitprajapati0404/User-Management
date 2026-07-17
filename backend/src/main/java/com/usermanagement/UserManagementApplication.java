@@ -3,10 +3,12 @@ package com.usermanagement;
 import com.usermanagement.entity.User;
 import com.usermanagement.enums.Role;
 import com.usermanagement.repository.UserRepository;
+import com.usermanagement.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +20,7 @@ public class UserManagementApplication {
     }
 
     @Bean
+    @Order(1)
     CommandLineRunner seedUsers(UserRepository repository) {
 
         return args -> {
@@ -42,6 +45,25 @@ public class UserManagementApplication {
             }
 
             System.out.println("10 sample users inserted successfully.");
+
+        };
+
+    }
+
+    @Bean
+    @Order(2)
+    CommandLineRunner test(UserService service) {
+
+        return args -> {
+
+            System.out.println("All Users");
+
+            service.getAllUsers()
+                    .forEach(System.out::println);
+
+            System.out.println("----------------");
+
+            System.out.println(service.getUserById(1L));
 
         };
 
