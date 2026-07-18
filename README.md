@@ -160,7 +160,9 @@ npm install
 npm start
 ```
 
-Frontend runs on: `http://localhost:4200`
+Frontend runs on: `http://localhost:4200` (or the next available port if 4200 is already busy).
+
+The startup script automatically uses an available port and proxies API requests to the backend port that Spring Boot selects at launch.
 
 The frontend uses an Angular proxy (`proxy.conf.json`) that forwards all `/api/*` requests to the backend at `http://localhost:8080`.
 

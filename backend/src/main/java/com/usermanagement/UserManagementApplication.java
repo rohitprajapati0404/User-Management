@@ -10,13 +10,46 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class UserManagementApplication {
 
     public static void main(String[] args) {
+        configureServerPort();
         SpringApplication.run(UserManagementApplication.class, args);
+    }
+
+    private static void configureServerPort() {
+        int selectedPort = resolveAvailablePort();
+        System.setProperty("server.port", String.valueOf(selectedPort));
+        writePortFile(selectedPort);
+    }
+
+    private static int resolveAvailablePort() {
+        for (int port = 8080; port <= 8100; port++) {
+            try (ServerSocket socket = new ServerSocket(port)) {
+                return port;
+            } catch (IOException ignored) {
+                // Try the next port if this one is already in use.
+            }
+        }
+
+        return 8080;
+    }
+
+    private static void writePortFile(int port) {
+        try {
+            Path portFile = Path.of("target", "backend-port.txt");
+            Files.createDirectories(portFile.getParent());
+            Files.writeString(portFile, String.valueOf(port));
+        } catch (IOException ex) {
+            System.err.println("Unable to write backend port file: " + ex.getMessage());
+        }
     }
 
     @Bean
